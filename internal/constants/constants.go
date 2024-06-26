@@ -12,5 +12,4 @@ const (
 	FlagTags    = "tags"
 	FlagComment = "comment"
 	FlagID      = "id"
-	FlagZoneID  = "zone-id"
 )

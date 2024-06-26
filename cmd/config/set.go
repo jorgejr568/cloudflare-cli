@@ -6,7 +6,6 @@ import (
 	"github.com/jorgejr568/cloudflare-cli/internal/config"
 	"github.com/spf13/cobra"
 	"reflect"
-	"strings"
 )
 
 func cmdConfigSet(rootCmd *cobra.Command) error {
@@ -48,15 +47,6 @@ func cmdConfigSet(rootCmd *cobra.Command) error {
 	}
 	rootCmd.AddCommand(cmd)
 	return nil
-}
-
-func parseArg(arg string) (string, string, error) {
-	parts := strings.Split(arg, "=")
-	if len(parts) != 2 {
-		return "", "", fmt.Errorf("invalid arg format: %s", arg)
-	}
-
-	return parts[0], parts[1], nil
 }
 
 func setField(localConfig *config.LocalConfig, key string, value string) error {
