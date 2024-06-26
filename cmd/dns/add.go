@@ -5,6 +5,7 @@ import (
 	"github.com/jorgejr568/cloudflare-cli/cmd/messages"
 	"github.com/jorgejr568/cloudflare-cli/internal/clients/cloudflare"
 	"github.com/jorgejr568/cloudflare-cli/internal/constants"
+	"github.com/jorgejr568/cloudflare-cli/internal/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -93,9 +94,9 @@ func cmdDnsAdd(rootCmd *cobra.Command, client cloudflare.CloudflareClient) error
 	cmd.Flags().StringSlice(constants.FlagTags, []string{}, "Tags of the record")
 	cmd.Flags().String(constants.FlagComment, "", "Comment of the record")
 
-	cmd.MarkFlagRequired(constants.FlagName)
-	cmd.MarkFlagRequired(constants.FlagType)
-	cmd.MarkFlagRequired(constants.FlagContent)
+	utils.LogFatalIfError(cmd.MarkFlagRequired(constants.FlagName))
+	utils.LogFatalIfError(cmd.MarkFlagRequired(constants.FlagType))
+	utils.LogFatalIfError(cmd.MarkFlagRequired(constants.FlagContent))
 
 	rootCmd.AddCommand(cmd)
 	return nil

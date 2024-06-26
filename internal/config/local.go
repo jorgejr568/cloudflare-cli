@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/jorgejr568/cloudflare-cli/internal/utils"
 	"os"
 )
 
@@ -38,7 +39,7 @@ func SaveLocalConfig(config LocalConfig) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer utils.LogErrorIfError(file.Close())
 
 	fileData, err := json.Marshal(config)
 	if err != nil {
@@ -61,7 +62,7 @@ func LoadLocalConfig() (LocalConfig, error) {
 		}
 		return LocalConfig{}, err
 	}
-	defer file.Close()
+	defer utils.LogErrorIfError(file.Close())
 
 	var config LocalConfig
 	if err := json.NewDecoder(file).Decode(&config); err != nil {

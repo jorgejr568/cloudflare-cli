@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/jorgejr568/cloudflare-cli/internal/utils"
 	"io"
 	"net/http"
 )
@@ -56,7 +57,7 @@ func (h httpCloudflareClient) GetZoneByDomain(ctx context.Context, request GetZo
 		return nil, fmt.Errorf("%w: %s", ErrZoneListFailed, err.Error())
 	}
 
-	defer resp.Body.Close()
+	defer utils.LogErrorIfError(resp.Body.Close())
 	if resp.StatusCode != http.StatusOK {
 		if resp.StatusCode == http.StatusNotFound {
 			return nil, ErrZoneNotFound
@@ -104,7 +105,7 @@ func (h httpCloudflareClient) GetZoneRecords(ctx context.Context, request GetZon
 		return nil, fmt.Errorf("%w: %s", ErrZoneRecordsFailed, err.Error())
 	}
 
-	defer resp.Body.Close()
+	defer utils.LogErrorIfError(resp.Body.Close())
 	if resp.StatusCode != http.StatusOK {
 		if resp.StatusCode == http.StatusNotFound {
 			return nil, ErrZoneNotFound
@@ -150,7 +151,7 @@ func (h httpCloudflareClient) AddZoneRecord(ctx context.Context, request AddZone
 		return nil, fmt.Errorf("%w: %s", ErrRecordAddFailed, err.Error())
 	}
 
-	defer resp.Body.Close()
+	defer utils.LogErrorIfError(resp.Body.Close())
 	if resp.StatusCode != http.StatusOK {
 		if resp.StatusCode == http.StatusNotFound {
 			return nil, ErrZoneNotFound
@@ -179,7 +180,7 @@ func (h httpCloudflareClient) DeleteZoneRecord(ctx context.Context, request Dele
 		return fmt.Errorf("%w: %s", ErrRecordDeleteFailed, err.Error())
 	}
 
-	defer resp.Body.Close()
+	defer utils.LogErrorIfError(resp.Body.Close())
 	if resp.StatusCode != http.StatusOK {
 		if resp.StatusCode == http.StatusNotFound {
 			return ErrRecordNotFound
